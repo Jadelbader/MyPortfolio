@@ -1,8 +1,19 @@
 import Phaser from "phaser";
+import {
+  preloadSounds,
+  playHouseMusic,
+  startFootsteps,
+  stopFootsteps,
+} from "./SoundManager";
+import { openProject, goBack } from "./SceneHelpers";
 
 export default class GameWorldScene extends Phaser.Scene {
   constructor() {
     super("GameWorldScene");
+  }
+
+  preload() {
+    preloadSounds(this);
   }
 
   create() {
@@ -11,7 +22,6 @@ export default class GameWorldScene extends Phaser.Scene {
 
     this.cameras.main.setBackgroundColor("#2b1d14");
 
-    
     this.add.rectangle(
       gameWidth / 2,
       gameHeight / 2,
@@ -20,7 +30,6 @@ export default class GameWorldScene extends Phaser.Scene {
       0x5b3a29
     );
 
-   
     this.add.rectangle(
       gameWidth / 2,
       190,
@@ -29,12 +38,10 @@ export default class GameWorldScene extends Phaser.Scene {
       0x3b2418
     );
 
-    
     for (let x = 0; x < gameWidth; x += 80) {
       this.add.rectangle(x, 190, 8, 380, 0x4a2d1f);
     }
 
-    
     this.add.rectangle(
       gameWidth / 2,
       380,
@@ -54,7 +61,6 @@ export default class GameWorldScene extends Phaser.Scene {
       fontStyle: "bold",
     });
 
-    
     this.luminousProject = this.add.rectangle(
       gameWidth / 2 - 260,
       210,
@@ -94,7 +100,6 @@ export default class GameWorldScene extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
-    
     this.etfaqnaProject = this.add.rectangle(
       gameWidth / 2 + 260,
       210,
@@ -134,177 +139,165 @@ export default class GameWorldScene extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
+    this.add.rectangle(
+      gameWidth / 2,
+      gameHeight / 2 + 210,
+      700,
+      220,
+      0x7f1d1d
+    );
 
-this.add.rectangle(
-  gameWidth / 2,
-  gameHeight / 2 + 210,
-  700,
-  220,
-  0x7f1d1d
-);
+    this.add.rectangle(
+      gameWidth / 2,
+      gameHeight / 2 + 210,
+      620,
+      150,
+      0x991b1b
+    );
 
-this.add.rectangle(
-  gameWidth / 2,
-  gameHeight / 2 + 210,
-  620,
-  150,
-  0x991b1b
-);
+    this.add.rectangle(
+      gameWidth / 2 - 230,
+      gameHeight / 2 + 200,
+      160,
+      70,
+      0x1e3a8a
+    );
 
+    this.add.rectangle(
+      gameWidth / 2 - 230,
+      gameHeight / 2 + 145,
+      160,
+      35,
+      0x2563eb
+    );
 
+    this.add.rectangle(
+      gameWidth / 2 - 300,
+      gameHeight / 2 + 195,
+      30,
+      80,
+      0x1e3a8a
+    );
 
+    this.add.rectangle(
+      gameWidth / 2 - 160,
+      gameHeight / 2 + 195,
+      30,
+      80,
+      0x1e3a8a
+    );
 
-this.add.rectangle(
-  gameWidth / 2 - 230,
-  gameHeight / 2 + 200,
-  160,
-  70,
-  0x1e3a8a
-);
+    this.add.rectangle(
+      gameWidth / 2 + 230,
+      gameHeight / 2 + 200,
+      160,
+      70,
+      0x1e3a8a
+    );
 
-this.add.rectangle(
-  gameWidth / 2 - 230,
-  gameHeight / 2 + 145,
-  160,
-  35,
-  0x2563eb
-);
+    this.add.rectangle(
+      gameWidth / 2 + 230,
+      gameHeight / 2 + 145,
+      160,
+      35,
+      0x2563eb
+    );
 
-this.add.rectangle(
-  gameWidth / 2 - 300,
-  gameHeight / 2 + 195,
-  30,
-  80,
-  0x1e3a8a
-);
+    this.add.rectangle(
+      gameWidth / 2 + 160,
+      gameHeight / 2 + 195,
+      30,
+      80,
+      0x1e3a8a
+    );
 
-this.add.rectangle(
-  gameWidth / 2 - 160,
-  gameHeight / 2 + 195,
-  30,
-  80,
-  0x1e3a8a
-);
+    this.add.rectangle(
+      gameWidth / 2 + 300,
+      gameHeight / 2 + 195,
+      30,
+      80,
+      0x1e3a8a
+    );
 
+    this.add.rectangle(
+      gameWidth / 2,
+      gameHeight / 2 + 205,
+      120,
+      70,
+      0x6b4423
+    );
 
+    this.add.rectangle(
+      gameWidth / 2,
+      gameHeight / 2 + 205,
+      95,
+      45,
+      0x8b5a2b
+    );
 
+    this.add.rectangle(
+      gameWidth / 2 - 360,
+      gameHeight / 2 + 230,
+      35,
+      45,
+      0xd97706
+    );
 
-this.add.rectangle(
-  gameWidth / 2 + 230,
-  gameHeight / 2 + 200,
-  160,
-  70,
-  0x1e3a8a
-);
+    this.add.circle(
+      gameWidth / 2 - 360,
+      gameHeight / 2 + 185,
+      22,
+      0x16a34a
+    );
 
-this.add.rectangle(
-  gameWidth / 2 + 230,
-  gameHeight / 2 + 145,
-  160,
-  35,
-  0x2563eb
-);
+    this.add.circle(
+      gameWidth / 2 - 345,
+      gameHeight / 2 + 200,
+      18,
+      0x22c55e
+    );
 
-this.add.rectangle(
-  gameWidth / 2 + 160,
-  gameHeight / 2 + 195,
-  30,
-  80,
-  0x1e3a8a
-);
+    this.add.circle(
+      gameWidth / 2 - 375,
+      gameHeight / 2 + 200,
+      18,
+      0x22c55e
+    );
 
-this.add.rectangle(
-  gameWidth / 2 + 300,
-  gameHeight / 2 + 195,
-  30,
-  80,
-  0x1e3a8a
-);
+    this.add.rectangle(
+      gameWidth / 2 + 360,
+      gameHeight / 2 + 230,
+      35,
+      45,
+      0xd97706
+    );
 
+    this.add.circle(
+      gameWidth / 2 + 360,
+      gameHeight / 2 + 185,
+      22,
+      0x16a34a
+    );
 
+    this.add.circle(
+      gameWidth / 2 + 345,
+      gameHeight / 2 + 200,
+      18,
+      0x22c55e
+    );
 
+    this.add.circle(
+      gameWidth / 2 + 375,
+      gameHeight / 2 + 200,
+      18,
+      0x22c55e
+    );
 
-this.add.rectangle(
-  gameWidth / 2,
-  gameHeight / 2 + 205,
-  120,
-  70,
-  0x6b4423
-);
-
-this.add.rectangle(
-  gameWidth / 2,
-  gameHeight / 2 + 205,
-  95,
-  45,
-  0x8b5a2b
-);
-
-
-this.add.rectangle(
-  gameWidth / 2 - 360,
-  gameHeight / 2 + 230,
-  35,
-  45,
-  0xd97706
-);
-
-this.add.circle(
-  gameWidth / 2 - 360,
-  gameHeight / 2 + 185,
-  22,
-  0x16a34a
-);
-
-this.add.circle(
-  gameWidth / 2 - 345,
-  gameHeight / 2 + 200,
-  18,
-  0x22c55e
-);
-
-this.add.circle(
-  gameWidth / 2 - 375,
-  gameHeight / 2 + 200,
-  18,
-  0x22c55e
-);
-
-
-
-
-this.add.rectangle(
-  gameWidth / 2 + 360,
-  gameHeight / 2 + 230,
-  35,
-  45,
-  0xd97706
-);
-
-this.add.circle(
-  gameWidth / 2 + 360,
-  gameHeight / 2 + 185,
-  22,
-  0x16a34a
-);
-
-this.add.circle(
-  gameWidth / 2 + 345,
-  gameHeight / 2 + 200,
-  18,
-  0x22c55e
-);
-
-this.add.circle(
-  gameWidth / 2 + 375,
-  gameHeight / 2 + 200,
-  18,
-  0x22c55e
-);
     this.player = this.createGirlPlayer(
-  gameWidth / 2,
-  gameHeight - 120
-);
+      gameWidth / 2,
+      gameHeight - 120
+    );
+
     this.player.setDepth(100);
 
     this.interactText = this.add.text(
@@ -327,50 +320,60 @@ this.add.circle(
     );
 
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.wasMoving = false;
+
+    playHouseMusic(this, "gameMusic");
   }
 
-createGirlPlayer(x, y) {
-  const girl = this.add.container(x, y);
+  createGirlPlayer(x, y) {
+    const girl = this.add.container(x, y);
 
- 
-  const hair = this.add.circle(0, -20, 18, 0x4b2e1f);
+    const hair = this.add.circle(0, -20, 18, 0x4b2e1f);
+    const face = this.add.circle(0, -16, 12, 0xf8d5b8);
+    const eye1 = this.add.circle(-4, -18, 1.5, 0x000000);
+    const eye2 = this.add.circle(4, -18, 1.5, 0x000000);
+    const dress = this.add.rectangle(0, 12, 24, 32, 0xff69b4);
+    const arm1 = this.add.rectangle(-16, 10, 12, 4, 0xf8d5b8);
+    const arm2 = this.add.rectangle(16, 10, 12, 4, 0xf8d5b8);
+    const leg1 = this.add.rectangle(-6, 34, 5, 14, 0x111827);
+    const leg2 = this.add.rectangle(6, 34, 5, 14, 0x111827);
 
- 
-  const face = this.add.circle(0, -16, 12, 0xf8d5b8);
+    girl.add([
+      hair,
+      face,
+      eye1,
+      eye2,
+      dress,
+      arm1,
+      arm2,
+      leg1,
+      leg2,
+    ]);
 
-  
-  const eye1 = this.add.circle(-4, -18, 1.5, 0x000000);
-  const eye2 = this.add.circle(4, -18, 1.5, 0x000000);
+    girl.setDepth(100);
 
-  
-  const dress = this.add.rectangle(0, 12, 24, 32, 0xff69b4);
+    return girl;
+  }
 
-  
-  const arm1 = this.add.rectangle(-16, 10, 12, 4, 0xf8d5b8);
-  const arm2 = this.add.rectangle(16, 10, 12, 4, 0xf8d5b8);
-
-  
-  const leg1 = this.add.rectangle(-6, 34, 5, 14, 0x111827);
-  const leg2 = this.add.rectangle(6, 34, 5, 14, 0x111827);
-
-  girl.add([
-    hair,
-    face,
-    eye1,
-    eye2,
-    dress,
-    arm1,
-    arm2,
-    leg1,
-    leg2
-  ]);
-
-  girl.setDepth(100);
-
-  return girl;
-}
   update() {
     const speed = 4;
+
+    const isMoving =
+      this.cursors.left.isDown ||
+      this.cursors.right.isDown ||
+      this.cursors.up.isDown ||
+      this.cursors.down.isDown;
+
+    if (isMoving && !this.wasMoving) {
+      startFootsteps(this);
+    }
+
+    if (!isMoving && this.wasMoving) {
+      stopFootsteps();
+    }
+
+    this.wasMoving = isMoving;
 
     if (this.cursors.left.isDown) this.player.x -= speed;
     if (this.cursors.right.isDown) this.player.x += speed;
@@ -397,20 +400,20 @@ createGirlPlayer(x, y) {
       this.interactText.setText("Press E to view Luminous");
 
       if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-        this.scene.start("LuminousScene");
+        openProject(this, "LuminousScene");
       }
     } else if (nearEtfaqnaProject) {
       this.interactText.setText("Press E to view Etfaqna");
 
       if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-        this.scene.start("EtfaqnaScene");
+        openProject(this, "EtfaqnaScene");
       }
     } else {
       this.interactText.setText("");
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.backKey)) {
-      this.scene.start("MainScene");
+      goBack(this);
     }
   }
 }

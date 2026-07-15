@@ -1,11 +1,18 @@
 import Phaser from "phaser";
-
+import {
+  preloadSounds,
+  startAmbience,
+  playEffect,
+} from "./SoundManager";
+import { goToHouse } from "./SceneHelpers";
 export default class MainScene extends Phaser.Scene {
   constructor() {
     super("MainScene");
   }
 
-  preload() {}
+  preload() {
+  preloadSounds(this);
+}
 
   create() {
     
@@ -343,80 +350,102 @@ createBeePlayer(x, y) {
     stripe2,
     head,
   ]);
-
+startAmbience(this);
   bee.setDepth(100);
 
   return bee;
 }
   update() {
-    const speed = 4;
+  const speed = 4;
 
-    if (this.cursors.left.isDown) this.player.x -= speed;
-    if (this.cursors.right.isDown) this.player.x += speed;
-    if (this.cursors.up.isDown) this.player.y -= speed;
-    if (this.cursors.down.isDown) this.player.y += speed;
+  if (this.cursors.left.isDown) this.player.x -= speed;
+  if (this.cursors.right.isDown) this.player.x += speed;
+  if (this.cursors.up.isDown) this.player.y -= speed;
+  if (this.cursors.down.isDown) this.player.y += speed;
 
-    const nearGameGate =
-      Phaser.Math.Distance.Between(this.player.x, this.player.y, this.gameGate.x, this.gameGate.y) < 120;
+  const nearGameGate =
+    Phaser.Math.Distance.Between(
+      this.player.x,
+      this.player.y,
+      this.gameGate.x,
+      this.gameGate.y
+    ) < 120;
 
-    const nearCodeGate =
-      Phaser.Math.Distance.Between(this.player.x, this.player.y, this.codeGate.x, this.codeGate.y) < 120;
+  const nearCodeGate =
+    Phaser.Math.Distance.Between(
+      this.player.x,
+      this.player.y,
+      this.codeGate.x,
+      this.codeGate.y
+    ) < 120;
 
-    const nearAboutGate =
-      Phaser.Math.Distance.Between(this.player.x, this.player.y, this.aboutGate.x, this.aboutGate.y) < 120;
+  const nearAboutGate =
+    Phaser.Math.Distance.Between(
+      this.player.x,
+      this.player.y,
+      this.aboutGate.x,
+      this.aboutGate.y
+    ) < 120;
 
-    const nearFlower = this.flowers.find((flower) => {
-      return (
-        !flower.watered &&
-        Phaser.Math.Distance.Between(this.player.x, this.player.y, flower.x, flower.y) < 55
-      );
-    });
+  const nearFlower = this.flowers.find((flower) => {
+    return (
+      !flower.watered &&
+      Phaser.Math.Distance.Between(
+        this.player.x,
+        this.player.y,
+        flower.x,
+        flower.y
+      ) < 55
+    );
+  });
 
-    if (nearFlower) {
-      this.interactText.setText("Press W to water flower");
+  if (nearFlower) {
+    this.interactText.setText("Press W to water flower");
 
-      if (Phaser.Input.Keyboard.JustDown(this.wKey)) {
-        nearFlower.watered = true;
+    if (Phaser.Input.Keyboard.JustDown(this.wKey)) {
+      playEffect(this, "water", 0.55);
 
-        const colors = [
-          0xff69b4,
-          0xffd700,
-          0xffffff,
-          0xc084fc,
-          0xfb7185,
-          0x38bdf8,
-        ];
+      nearFlower.watered = true;
 
-        const color = Phaser.Math.RND.pick(colors);
+      const colors = [
+        0xff69b4,
+        0xffd700,
+        0xffffff,
+        0xc084fc,
+        0xfb7185,
+        0x38bdf8,
+      ];
 
-        nearFlower.bud.setFillStyle(color);
-        nearFlower.bud.setRadius(12);
+      const color = Phaser.Math.RND.pick(colors);
 
-        this.add.circle(nearFlower.x - 9, nearFlower.y, 6, color);
-        this.add.circle(nearFlower.x + 9, nearFlower.y, 6, color);
-        this.add.circle(nearFlower.x, nearFlower.y - 9, 6, color);
-        this.add.circle(nearFlower.x, nearFlower.y + 9, 6, color);
-      }
-    } else if (nearGameGate) {
-      this.interactText.setText("Press E to enter Game House");
+      nearFlower.bud.setFillStyle(color);
+      nearFlower.bud.setRadius(12);
 
-      if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-        this.scene.start("GameWorldScene");
-      }
-    } else if (nearCodeGate) {
-      this.interactText.setText("Press E to enter Code House");
-
-      if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-        this.scene.start("CodeWorldScene");
-      }
-    } else if (nearAboutGate) {
-      this.interactText.setText("Press E to enter About House");
-
-      if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-        this.scene.start("AboutScene");
-      }
-    } else {
-      this.interactText.setText("");
+      this.add.circle(nearFlower.x - 9, nearFlower.y, 6, color);
+      this.add.circle(nearFlower.x + 9, nearFlower.y, 6, color);
+      this.add.circle(nearFlower.x, nearFlower.y - 9, 6, color);
+      this.add.circle(nearFlower.x, nearFlower.y + 9, 6, color);
     }
+  } else if (nearGameGate) {
+    this.interactText.setText("Press E to enter Game House");
+
+    if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+      goToHouse(this, "GameWorldScene");
+    }
+  } else if (nearCodeGate) {
+    this.interactText.setText("Press E to enter Code House");
+
+    if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+      goToHouse(this, "CodeWorldScene");
+    }
+  } else if (nearAboutGate) {
+    this.interactText.setText("Press E to enter About House");
+
+    if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+      goToHouse(this, "AboutScene");
+    }
+  } else {
+    this.interactText.setText("");
   }
+}
 }

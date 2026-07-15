@@ -1,8 +1,19 @@
 import Phaser from "phaser";
+import {
+  preloadSounds,
+  playHouseMusic,
+  startFootsteps,
+  stopFootsteps,
+} from "./SoundManager";
+import { openProject, goBack } from "./SceneHelpers";
 
 export default class CodeWorldScene extends Phaser.Scene {
   constructor() {
     super("CodeWorldScene");
+  }
+
+  preload() {
+    preloadSounds(this);
   }
 
   create() {
@@ -77,9 +88,10 @@ export default class CodeWorldScene extends Phaser.Scene {
     );
 
     this.player = this.createGirlPlayer(
-  gameWidth / 2,
-  gameHeight - 120
-);
+      gameWidth / 2,
+      gameHeight - 120
+    );
+
     this.player.setDepth(100);
 
     this.interactText = this.add.text(
@@ -102,6 +114,10 @@ export default class CodeWorldScene extends Phaser.Scene {
     );
 
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.wasMoving = false;
+
+    playHouseMusic(this, "codeMusic");
   }
 
   createProjectCorner(x, y, label, sofaColor, vaseColor) {
@@ -127,48 +143,54 @@ export default class CodeWorldScene extends Phaser.Scene {
     return this.add.rectangle(x, y + 55, 130, 150, 0x000000, 0);
   }
 
-createGirlPlayer(x, y) {
-  const girl = this.add.container(x, y);
+  createGirlPlayer(x, y) {
+    const girl = this.add.container(x, y);
 
- 
-  const hair = this.add.circle(0, -20, 18, 0x4b2e1f);
+    const hair = this.add.circle(0, -20, 18, 0x4b2e1f);
+    const face = this.add.circle(0, -16, 12, 0xf8d5b8);
+    const eye1 = this.add.circle(-4, -18, 1.5, 0x000000);
+    const eye2 = this.add.circle(4, -18, 1.5, 0x000000);
+    const dress = this.add.rectangle(0, 12, 24, 32, 0xff69b4);
+    const arm1 = this.add.rectangle(-16, 10, 12, 4, 0xf8d5b8);
+    const arm2 = this.add.rectangle(16, 10, 12, 4, 0xf8d5b8);
+    const leg1 = this.add.rectangle(-6, 34, 5, 14, 0x111827);
+    const leg2 = this.add.rectangle(6, 34, 5, 14, 0x111827);
 
-  
-  const face = this.add.circle(0, -16, 12, 0xf8d5b8);
+    girl.add([
+      hair,
+      face,
+      eye1,
+      eye2,
+      dress,
+      arm1,
+      arm2,
+      leg1,
+      leg2,
+    ]);
 
- 
-  const eye1 = this.add.circle(-4, -18, 1.5, 0x000000);
-  const eye2 = this.add.circle(4, -18, 1.5, 0x000000);
+    girl.setDepth(100);
 
+    return girl;
+  }
 
-  const dress = this.add.rectangle(0, 12, 24, 32, 0xff69b4);
-
-  
-  const arm1 = this.add.rectangle(-16, 10, 12, 4, 0xf8d5b8);
-  const arm2 = this.add.rectangle(16, 10, 12, 4, 0xf8d5b8);
-
- 
-  const leg1 = this.add.rectangle(-6, 34, 5, 14, 0x111827);
-  const leg2 = this.add.rectangle(6, 34, 5, 14, 0x111827);
-
-  girl.add([
-    hair,
-    face,
-    eye1,
-    eye2,
-    dress,
-    arm1,
-    arm2,
-    leg1,
-    leg2
-  ]);
-
-  girl.setDepth(100);
-
-  return girl;
-}
   update() {
     const speed = 4;
+
+    const isMoving =
+      this.cursors.left.isDown ||
+      this.cursors.right.isDown ||
+      this.cursors.up.isDown ||
+      this.cursors.down.isDown;
+
+    if (isMoving && !this.wasMoving) {
+      startFootsteps(this);
+    }
+
+    if (!isMoving && this.wasMoving) {
+      stopFootsteps();
+    }
+
+    this.wasMoving = isMoving;
 
     if (this.cursors.left.isDown) this.player.x -= speed;
     if (this.cursors.right.isDown) this.player.x += speed;
@@ -203,26 +225,26 @@ createGirlPlayer(x, y) {
       this.interactText.setText("Press E to open Nebras");
 
       if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-        this.scene.start("NebrasScene");
+        openProject(this, "NebrasScene");
       }
     } else if (nearBook) {
       this.interactText.setText("Press E to open Book Review");
 
       if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-        this.scene.start("BookReviewScene");
+        openProject(this, "BookReviewScene");
       }
     } else if (nearDjango) {
       this.interactText.setText("Press E to open Django Project");
 
       if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-        this.scene.start("DjangoScene");
+        openProject(this, "DjangoScene");
       }
     } else {
       this.interactText.setText("");
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.backKey)) {
-      this.scene.start("MainScene");
+      goBack(this);
     }
   }
 }
