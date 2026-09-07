@@ -134,11 +134,15 @@ export default class ContactScene extends Phaser.Scene {
         window.open("https://www.linkedin.com/in/jadel-bader-aldghami-", "_blank");
       }
     } else if (nearEmail) {
-      this.interactText.setText("Press E to send Email");
+  this.interactText.setText("Press E to send Email");
 
-      if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
-        window.open("mailto:jadelbader123@gmail.com", "_blank");
-      }
+  if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+    window.open(
+      "https://mail.google.com/mail/?view=cm&fs=1&to=jadelbader123@gmail.com&su=Portfolio%20Contact",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
     } else {
       this.interactText.setText("");
     }

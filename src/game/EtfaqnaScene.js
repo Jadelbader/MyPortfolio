@@ -12,7 +12,9 @@ export default class EtfaqnaScene extends Phaser.Scene {
     const cardX = gameWidth / 2;
     const cardY = gameHeight / 2 + 55;
 
-    this.cameras.main.setBackgroundColor("#2e1065");
+    this.cameras.main.setBackgroundColor(
+      "#2e1065"
+    );
 
     this.add.rectangle(
       gameWidth / 2,
@@ -22,22 +24,32 @@ export default class EtfaqnaScene extends Phaser.Scene {
       0x2e1065
     );
 
-    this.add.text(30, 30, "ESC = Back", {
-      fontSize: "20px",
-      color: "#ffffff",
-      fontStyle: "bold",
-    });
+    this.add.text(
+      30,
+      30,
+      "ESC = Back",
+      {
+        fontSize: "20px",
+        color: "#ffffff",
+        fontStyle: "bold",
+      }
+    );
 
-    this.add.text(gameWidth / 2, 65, "ETFAQNA", {
-      fontSize: "38px",
-      color: "#ffffff",
-      fontStyle: "bold",
-    }).setOrigin(0.5);
+    this.add.text(
+      gameWidth / 2,
+      65,
+      "ETFAQNA",
+      {
+        fontSize: "38px",
+        color: "#ffffff",
+        fontStyle: "bold",
+      }
+    ).setOrigin(0.5);
 
     this.add.text(
       gameWidth / 2,
       110,
-      "Browser-Based Team Game Prototype",
+      "Browser-Based Team Game",
       {
         fontSize: "20px",
         color: "#f9a8d4",
@@ -45,11 +57,24 @@ export default class EtfaqnaScene extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
-    // Card
-    this.add.rectangle(cardX, cardY, 920, 470, 0xbe185d);
-    this.add.rectangle(cardX, cardY, 860, 410, 0x4c1d95);
+    // Main card
+    this.add.rectangle(
+      cardX,
+      cardY,
+      920,
+      470,
+      0xbe185d
+    );
 
-    // Left box
+    this.add.rectangle(
+      cardX,
+      cardY,
+      860,
+      410,
+      0x4c1d95
+    );
+
+    // Current version box
     this.add.rectangle(
       cardX - 230,
       cardY - 45,
@@ -58,24 +83,40 @@ export default class EtfaqnaScene extends Phaser.Scene {
       0x2e1065
     );
 
-    this.add.text(cardX - 230, cardY - 145, "Current Version", {
-      fontSize: "24px",
-      color: "#f9a8d4",
-      fontStyle: "bold",
-    }).setOrigin(0.5);
+    this.add.text(
+      cardX - 230,
+      cardY - 145,
+      "Current Version",
+      {
+        fontSize: "24px",
+        color: "#f9a8d4",
+        fontStyle: "bold",
+      }
+    ).setOrigin(0.5);
 
     this.add.text(
       cardX - 380,
-      cardY - 100,
-      "Etfaqna is a browser-based\nteam game prototype.\n\nCurrent features:\n• Two-team gameplay\n• Rounds and scoring\n• Browser interaction\n• Timed challenges",
+      cardY - 108,
+      [
+        "Current features:",
+        "",
+        "• Two-team gameplay",
+        "• Online rooms",
+        "• Team category selection",
+        "• Question categories",
+        "• Rounds and scoring",
+        "• Timed challenges",
+        "• Mobile-friendly experience",
+        "• Improved game flow",
+      ],
       {
-        fontSize: "15px",
+        fontSize: "13px",
         color: "#ffffff",
-        lineSpacing: 7,
+        lineSpacing: 4,
       }
     );
 
-    // Right box
+    // Future improvements box
     this.add.rectangle(
       cardX + 230,
       cardY - 45,
@@ -84,23 +125,34 @@ export default class EtfaqnaScene extends Phaser.Scene {
       0x2e1065
     );
 
-    this.add.text(cardX + 230, cardY - 145, "Next Improvements", {
-      fontSize: "24px",
-      color: "#f9a8d4",
-      fontStyle: "bold",
-    }).setOrigin(0.5);
+    this.add.text(
+      cardX + 230,
+      cardY - 145,
+      "Next Improvements",
+      {
+        fontSize: "24px",
+        color: "#f9a8d4",
+        fontStyle: "bold",
+      }
+    ).setOrigin(0.5);
 
     this.add.text(
       cardX + 80,
-      cardY - 100,
-      "Planned updates:\n• Online rooms\n• Team category selection\n• Question categories\n• Better mobile experience\n• Improved game flow",
+      cardY - 90,
+      [
+        "Planned updates:",
+        "",
+        "• Single-player mode",
+        "• Mobile application",
+      ],
       {
-        fontSize: "15px",
+        fontSize: "16px",
         color: "#ffffff",
-        lineSpacing: 8,
+        lineSpacing: 12,
       }
     );
 
+    // Technologies
     this.add.text(
       cardX,
       cardY + 115,
@@ -112,8 +164,8 @@ export default class EtfaqnaScene extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
-    // Demo button
-    this.add.rectangle(
+    // Demo button background
+    const demoButton = this.add.rectangle(
       cardX,
       cardY + 180,
       300,
@@ -121,36 +173,94 @@ export default class EtfaqnaScene extends Phaser.Scene {
       0x1e1b4b
     );
 
-    this.add.text(
+    demoButton.setInteractive({
+      useHandCursor: true,
+    });
+
+    // Demo button text
+    const demoText = this.add.text(
       cardX,
       cardY + 180,
-      "Press V to watch demo",
+      "Press V or click to watch demo",
       {
-        fontSize: "18px",
+        fontSize: "16px",
         color: "#ffffff",
         fontStyle: "bold",
       }
     ).setOrigin(0.5);
 
-    this.backKey = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.ESC
+    demoText.setInteractive({
+      useHandCursor: true,
+    });
+
+    const openDemo = () => {
+      window.open(
+        "https://drive.google.com/file/d/1hH26Syp47SkocjUXKdiXqD4dmztgAbXS/view?usp=sharing",
+        "_blank",
+        "noopener,noreferrer"
+      );
+    };
+
+    demoButton.on(
+      "pointerdown",
+      openDemo
     );
 
-    this.vKey = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.V
+    demoText.on(
+      "pointerdown",
+      openDemo
     );
+
+    demoButton.on(
+      "pointerover",
+      () => {
+        demoButton.setFillStyle(
+          0x312e81
+        );
+      }
+    );
+
+    demoButton.on(
+      "pointerout",
+      () => {
+        demoButton.setFillStyle(
+          0x1e1b4b
+        );
+      }
+    );
+
+    this.backKey =
+      this.input.keyboard.addKey(
+        Phaser.Input.Keyboard.KeyCodes.ESC
+      );
+
+    this.vKey =
+      this.input.keyboard.addKey(
+        Phaser.Input.Keyboard.KeyCodes.V
+      );
   }
 
   update() {
-    if (Phaser.Input.Keyboard.JustDown(this.vKey)) {
+    if (
+      Phaser.Input.Keyboard.JustDown(
+        this.vKey
+      )
+    ) {
       window.open(
         "https://drive.google.com/file/d/1ZtUWny2N3JmNhM0Pnqqmnmtw0SjijhJ4/view?usp=sharing",
-        "_blank"
+        "_blank",
+        "noopener,noreferrer"
       );
     }
 
-    if (Phaser.Input.Keyboard.JustDown(this.backKey)) {
-      this.scene.start("GameWorldScene");
+    if (
+      Phaser.Input.Keyboard.JustDown(
+        this.backKey
+      )
+    ) {
+      this.scene.start(
+        "GameWorldScene"
+      );
     }
   }
 }
