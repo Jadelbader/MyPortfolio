@@ -10,7 +10,7 @@ export default class EtfaqnaScene extends Phaser.Scene {
     const gameHeight = this.scale.height;
 
     const cardX = gameWidth / 2;
-    const cardY = gameHeight / 2 + 165;
+    const cardY = gameHeight / 2 + 65;
 
     this.cameras.main.setBackgroundColor("#2e1065");
 
