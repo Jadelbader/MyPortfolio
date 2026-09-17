@@ -68,11 +68,7 @@ export default class AboutScene extends Phaser.Scene {
       زر السيرة الذاتية.
       يظهر فقط داخل About House.
     */
-
-    this.createCVButton(
-      gameWidth - 105,
-      50
-    );
+   
 
     this.add.text(
       gameWidth / 2,
