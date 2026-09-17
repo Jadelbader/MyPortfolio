@@ -130,5 +130,4 @@ export default class DjangoScene extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(this.backKey)) {
       this.scene.start("CodeWorldScene");
     }
-  }
-}
+  }}
