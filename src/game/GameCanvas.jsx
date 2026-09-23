@@ -116,7 +116,12 @@ export default function GameCanvas() {
         height / WORLD_HEIGHT
       );
 
-      const compact = width < 1100 || height < 600;
+      const desktopInput = window.matchMedia(
+  "(hover: hover) and (pointer: fine)"
+).matches;
+
+const compact =
+  !desktopInput && (width < 1100 || height < 600);
 
       let visualScale = fit;
 
