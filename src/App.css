@@ -192,3 +192,98 @@ body {
 
   pointer-events: none;
 }
+/* تنسيق الأزرار العلوية للجوال والآيباد فقط */
+@media (hover: none), (pointer: coarse), (max-width: 1099px) {
+  .game-page .back-button,
+  .game-page .cv-button,
+  .game-page .game-language-touch {
+    position: absolute;
+    top: max(12px, env(safe-area-inset-top));
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: 0 12px;
+    box-sizing: border-box;
+
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 10px;
+    background: #244b3b;
+    color: #fff;
+
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    text-shadow: none;
+    text-decoration: none;
+    box-shadow: none;
+
+    pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* الرجوع: إخفاء رمز الإيموجي القديم */
+  .game-page .back-button {
+    left: max(12px, env(safe-area-inset-left));
+    right: auto;
+    width: 48px;
+    font-size: 0;
+  }
+
+  .game-page .back-button::after {
+    content: "←";
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  /* السيرة الذاتية */
+  .game-page .cv-button {
+    right: max(12px, env(safe-area-inset-right));
+    left: auto;
+    width: 60px;
+  }
+
+  /* اللغة: بجانب السيرة وبنفس التنسيق */
+  .game-page .game-language-touch {
+    right: calc(
+      max(12px, env(safe-area-inset-right)) + 68px
+    );
+    left: auto;
+    width: 52px;
+  }
+
+  .game-page .back-button:active,
+  .game-page .cv-button:active,
+  .game-page .game-language-touch:active {
+    background: #35694f;
+  }
+}
+@media (hover: none), (pointer: coarse), (max-width: 1099px) {
+  .game-page .back-button,
+  .game-page .back-button:active {
+    width: var(--button-size, 46px);
+    height: var(--button-size, 46px);
+    min-height: 0;
+    padding: 0;
+
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.28);
+    box-shadow: none;
+    font-size: 0;
+  }
+
+  .game-page .back-button::after {
+    content: "←";
+    color: #ffffff;
+    font: 24px Arial, sans-serif;
+    text-shadow: 0 1px 2px #000;
+  }
+}

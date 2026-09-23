@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Phaser from "phaser";
 import "../App.css";
-
+import LanguageButton, { localizeScene } from "./GameLanguage";
 import MainScene from "./MainScene";
 import GameWorldScene from "./GameWorldScene";
 import LuminousScene from "./LuminousScene";
@@ -158,25 +158,26 @@ export default function GameCanvas() {
     }
 
     function showControls(scene) {
-      if (!alive) return;
+  if (!alive) return;
 
-      setView({
-        ready: true,
-        moving: Boolean(scene.player),
-        back: Boolean(scene.backKey),
-        cv: scene.sys.settings.key === "AboutScene",
-        actions: ACTIONS.filter(
-          ([property]) => Boolean(scene[property])
-        ),
-      });
-    }
+  setView({
+    isHome: scene.sys.settings.key === "MainScene",
+    ready: true,
+    moving: Boolean(scene.player),
+    back: Boolean(scene.backKey),
+    cv: scene.sys.settings.key === "AboutScene",
+    actions: ACTIONS.filter(
+      ([property]) => Boolean(scene[property])
+    ),
+  });
+}
 
     const responsiveScenes = SCENES.map(
       (OriginalScene) =>
         class extends OriginalScene {
           create(...args) {
             super.create(...args);
-
+            localizeScene(this);
             releaseAll();
             activeScene = this;
 
@@ -426,13 +427,22 @@ if (alive && activeScene === this) {
       }
     >
       <div id="game-container" ref={hostRef} />
-
+      <div hidden={!view.isHome}>
+  <LanguageButton />
+      </div>
       {view.ready && (
         <div className="floating-controls">
           {view.hint && (
-  <div className="interaction-hint">
-    {view.hint}
-  </div>
+  <div
+  className="interaction-hint"
+  dir="auto"
+  style={{
+    unicodeBidi: "plaintext",
+    fontFamily: "Tahoma, Arial, sans-serif",
+  }}
+>
+  {view.hint}
+</div>
 )}
           {view.back && (
             <button
